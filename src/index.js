@@ -94,7 +94,7 @@ app.use(
   app.listen(port, () => {
     system.info(`Server process ${process.pid} is listening on ${hostname}:${port}`);
     console.log(
-      `Use the following url to access: ${chalk.green(`http://localhost:${port}/api/bank`)}`
+      `Use the following url to access: ${chalk.green(`http://${cockroachdb.address}/api/bank`)}`
     );
   });
 
