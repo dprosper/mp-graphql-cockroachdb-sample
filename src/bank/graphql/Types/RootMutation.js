@@ -1,8 +1,7 @@
 import {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLNonNull,
-  GraphQLList
+  GraphQLNonNull
 } from "graphql";
 
 const Mutation = new GraphQLObjectType({
@@ -25,7 +24,8 @@ const Mutation = new GraphQLObjectType({
       },
       async resolve (_, args, context) {
         let result = await context.client.query(`INSERT INTO accounts (balance) VALUES (${args.balance});`);
-        return result
+        context.client.release();
+        return result;
       }
     }
   })

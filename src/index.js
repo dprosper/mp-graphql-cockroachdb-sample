@@ -11,7 +11,6 @@ import secrets from "../config/secrets.json";
 import cockroachdb from "../config/cockroachdb.json";
 import { Pool } from 'pg';
 
-
 const port = 5000;
 const APP_BUILD_PATH = "build";
 const { NODE_ENV = "development" } = process.env;
@@ -61,7 +60,11 @@ app.use(
   let pool = new Pool(config);
   const client = await pool.connect()
 
-  // await client.end()
+  pool.on('error', (err, client) => {
+    console.error(`${chalk.red(`Unexpected error on idle client`)}`, err)
+    process.exit(-1)
+  })
+
   require("./bank/routes")(app, client);
 
   app.use("/health", function (req, res, next) {
