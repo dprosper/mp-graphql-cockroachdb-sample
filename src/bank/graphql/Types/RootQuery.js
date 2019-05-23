@@ -12,8 +12,9 @@ const Query = new GraphQLObjectType({
       read: {
         type: new GraphQLList(AccountType),
         async resolve(_, args, context) {
-          let { rows } = await context.client.query('SELECT id, transactiontime, balance FROM accounts;');
-          context.client.release();
+          const client = await context.pool.connect();
+          let { rows } = await client.query('SELECT id, transactiontime, balance FROM accounts;');
+          client.release();
           return rows;
         }
       }

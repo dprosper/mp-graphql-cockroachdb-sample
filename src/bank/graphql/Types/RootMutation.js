@@ -23,8 +23,9 @@ const Mutation = new GraphQLObjectType({
         }
       },
       async resolve (_, args, context) {
-        let result = await context.client.query(`INSERT INTO accounts (balance) VALUES (${args.balance});`);
-        context.client.release();
+        const client = await context.pool.connect();
+        let result = await client.query(`INSERT INTO accounts (balance) VALUES (${args.balance});`);
+        client.release();
         return result;
       }
     }
