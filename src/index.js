@@ -53,7 +53,8 @@ app.use(
     user: 'maxroach',
     host: `${cockroachdb.address}`,
     database: 'bank',
-    port: 26257
+    port: 26257,
+    connectionTimeoutMillis: 2000
   };
 
   // Create a pool.
@@ -62,7 +63,11 @@ app.use(
   pool.on('error', (err, client) => {
     console.error(`${chalk.red(`Unexpected error on idle client`)}`, err)
     process.exit(-1)
-  })
+  });
+
+  pool.on('connect', () => {
+    console.log(`${chalk.green('connected to the db')}`);
+  });
 
   require("./bank/routes")(app, pool);
 
