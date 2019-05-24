@@ -60,9 +60,8 @@ app.use(
   // Create a pool.
   let pool = new Pool(config);
 
-  pool.on('error', (err, client) => {
-    console.error(`${chalk.red(`Unexpected error on idle client`)}`, err)
-    process.exit(-1)
+  pool.on('error', (err) => {
+    console.error(`${chalk.red(`Unexpected error on idle client`)}`, err.stack)
   });
 
   pool.on('connect', () => {
