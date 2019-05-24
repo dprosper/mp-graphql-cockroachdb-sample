@@ -64,9 +64,9 @@ app.use(
     console.error(`${chalk.red(`Unexpected error on idle client`)}`, err.stack)
   });
 
-  pool.on('connect', () => {
-    console.log(`${chalk.green('connected to the db')}`);
-  });
+  // pool.on('connect', () => {
+  //   console.log(`${chalk.green('connected to the db')}`);
+  // });
 
   require("./bank/routes")(app, pool);
 

@@ -13,6 +13,10 @@ const Query = new GraphQLObjectType({
         type: new GraphQLList(AccountType),
         async resolve(_, args, context) {
           const client = await context.pool.connect();
+          client.on('connect', () => {
+            console.log(`${chalk.green('connected to the db')}`);
+          });
+
           let { rows } = await client.query('SELECT id, transactiontime, balance FROM accounts;');
           client.release();
           console.log(rows);
