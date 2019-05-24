@@ -15,6 +15,7 @@ const Query = new GraphQLObjectType({
           const client = await context.pool.connect();
           let { rows } = await client.query('SELECT id, transactiontime, balance FROM accounts;');
           client.release();
+          console.log(rows);
           return rows;
         }
       }
