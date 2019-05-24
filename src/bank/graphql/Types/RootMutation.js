@@ -24,12 +24,8 @@ const Mutation = new GraphQLObjectType({
       },
       async resolve (_, args, context) {
         const client = await context.pool.connect();
-        client.on('connect', () => {
-          console.log(`${chalk.green('connected to the db')}`);
-        });
         let result = await client.query(`INSERT INTO accounts (balance) VALUES (${args.balance});`);
         client.release();
-        console.log(result);
         return result;
       }
     }
